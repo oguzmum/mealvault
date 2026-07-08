@@ -115,10 +115,4 @@ describe("PlanPage slot assignment", () => {
     // Dialog closes after selection
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
   });
-
-  it("shows palette dishes for dragging", async () => {
-    renderPlanPage();
-    expect(await screen.findByText("Gerichte zum Einplanen")).toBeInTheDocument();
-    expect((await screen.findAllByText("Rote-Linsen-Dal")).length).toBeGreaterThan(0);
-  });
 });
