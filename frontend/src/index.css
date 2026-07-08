@@ -1,0 +1,71 @@
+@import "@fontsource/nunito/700.css";
+@import "@fontsource/nunito/800.css";
+@import "@fontsource/nunito/900.css";
+@import "@fontsource/nunito-sans/400.css";
+@import "@fontsource/nunito-sans/600.css";
+@import "@fontsource/nunito-sans/700.css";
+@import "tailwindcss";
+
+/*
+ * MealVault design tokens, extracted 1:1 from design/MealVault.dc.html.
+ */
+@theme {
+  --font-sans: "Nunito Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Nunito", ui-sans-serif, system-ui, sans-serif;
+
+  /* Brand */
+  --color-primary: #e8663d;
+  --color-primary-hover: #d24e27;
+  --color-primary-tint: #fdf3ee;
+  --color-primary-deep: #c9481f;
+
+  /* Secondary green (macros: protein, success states) */
+  --color-success: #4f9d69;
+  --color-success-tint: #eaf4ed;
+  --color-success-text: #3b7a50;
+
+  /* Amber accent (macros: carbs, "quick" chips) */
+  --color-accent: #f2b04c;
+  --color-accent-tint: #fdf3e6;
+  --color-accent-text: #c58a2e;
+
+  /* Text */
+  --color-ink: #2b2621;
+  --color-ink-soft: #7a7268;
+  --color-ink-muted: #a89f94;
+  --color-ink-faint: #c4b8a8;
+
+  /* Surfaces & lines */
+  --color-cream: #fbf8f4;
+  --color-sand: #f3eee6;
+  --color-line: #ece6de;
+  --color-line-soft: #f5f0e8;
+
+  /* Radii scale from the design system */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+}
+
+body {
+  @apply bg-cream text-ink font-sans antialiased;
+  font-size: 15px;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background: #e3dace;
+  border-radius: 999px;
+  border: 2px solid #fbf8f4;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+input::placeholder {
+  color: var(--color-ink-muted);
+}
