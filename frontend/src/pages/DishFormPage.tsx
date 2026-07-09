@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import type { FormEvent, KeyboardEvent } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate, useParams } from "react-router-dom";
 
-import { useCreateDish, useDish, useUpdateDish, useUploadDishImage } from "../api/dishes";
+import { useCreateDish, useDish, useTags, useUpdateDish, useUploadDishImage } from "../api/dishes";
 import type { DishInput } from "../api/types";
 import PageHeader from "../components/layout/PageHeader";
 import Button from "../components/ui/Button";
@@ -41,6 +41,7 @@ export default function DishFormPage() {
   const isEdit = dishId !== undefined;
 
   const { data: existing } = useDish(dishId);
+  const { data: allTags = [] } = useTags();
   const createDish = useCreateDish();
   const updateDish = useUpdateDish();
   const uploadImage = useUploadDishImage();
@@ -55,6 +56,7 @@ export default function DishFormPage() {
   const [fat, setFat] = useState("");
   const [tags, setTags] = useState<string[]>([]);
   const [tagInput, setTagInput] = useState("");
+  const [tagMenuOpen, setTagMenuOpen] = useState(false);
   const [ingredients, setIngredients] = useState<IngredientRow[]>([
     { ingredient_name: "", amount: "", unit: "" },
   ]);
@@ -92,10 +94,10 @@ export default function DishFormPage() {
     );
   }, [existing, isEdit]);
 
-  const addTag = () => {
-    const value = tagInput.trim();
-    if (value && !tags.some((tag) => tag.toLowerCase() === value.toLowerCase())) {
-      setTags([...tags, value]);
+  const addTag = (value: string = tagInput) => {
+    const trimmed = value.trim();
+    if (trimmed && !tags.some((tag) => tag.toLowerCase() === trimmed.toLowerCase())) {
+      setTags([...tags, trimmed]);
     }
     setTagInput("");
   };
@@ -104,8 +106,18 @@ export default function DishFormPage() {
     if (event.key === "Enter") {
       event.preventDefault();
       addTag();
+      setTagMenuOpen(false);
+    } else if (event.key === "Escape") {
+      setTagMenuOpen(false);
     }
   };
+
+  const tagSuggestions = useMemo(() => {
+    const query = tagInput.trim().toLowerCase();
+    return allTags
+      .filter((tag) => !tags.some((existing) => existing.toLowerCase() === tag.name.toLowerCase()))
+      .filter((tag) => tag.name.toLowerCase().startsWith(query));
+  }, [allTags, tags, tagInput]);
 
   const updateIngredient = (index: number, patch: Partial<IngredientRow>) => {
     setIngredients(ingredients.map((row, i) => (i === index ? { ...row, ...patch } : row)));
@@ -231,7 +243,7 @@ export default function DishFormPage() {
               />
             </div>
           </div>
-          <div>
+          <div className="relative">
             <label className={labelClass} htmlFor="dish-tags">
               {t("dishes.form.tags")}
             </label>
@@ -241,9 +253,28 @@ export default function DishFormPage() {
               value={tagInput}
               onChange={(e) => setTagInput(e.target.value)}
               onKeyDown={handleTagKeyDown}
-              onBlur={addTag}
+              onFocus={() => setTagMenuOpen(true)}
+              onBlur={() => {
+                addTag();
+                setTagMenuOpen(false);
+              }}
               placeholder={t("dishes.form.tagsPlaceholder")}
             />
+            {tagMenuOpen && tagSuggestions.length > 0 && (
+              <div className="absolute z-10 mt-1 max-h-48 w-full overflow-auto rounded-md border border-line bg-white shadow-md">
+                {tagSuggestions.map((tag) => (
+                  <button
+                    key={tag.id}
+                    type="button"
+                    onMouseDown={(e) => e.preventDefault()}
+                    onClick={() => addTag(tag.name)}
+                    className="block w-full px-3.5 py-2 text-left text-sm text-ink hover:bg-primary-tint"
+                  >
+                    {tag.name}
+                  </button>
+                ))}
+              </div>
+            )}
             {tags.length > 0 && (
               <div className="mt-2.5 flex flex-wrap gap-2">
                 {tags.map((tag) => (
