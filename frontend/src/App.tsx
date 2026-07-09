@@ -11,6 +11,7 @@ import PlanPage from "./pages/PlanPage";
 import SearchPage from "./pages/SearchPage";
 import SettingsPage from "./pages/SettingsPage";
 import ShoppingPage from "./pages/ShoppingPage";
+import TagsPage from "./pages/TagsPage";
 import WheelPage from "./pages/WheelPage";
 
 export default function App() {
@@ -27,6 +28,7 @@ export default function App() {
         <Route path="shopping" element={<ShoppingPage />} />
         <Route path="wheel" element={<WheelPage />} />
         <Route path="basics" element={<BasicsPage />} />
+        <Route path="tags" element={<TagsPage />} />
         <Route path="settings" element={<SettingsPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Route>

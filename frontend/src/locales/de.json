@@ -10,6 +10,7 @@
     "shopping": "Einkaufsliste",
     "wheel": "Zufallsautomat",
     "basics": "Koch-Grundlagen",
+    "tags": "Tags",
     "settings": "Einstellungen",
     "openMenu": "Menü öffnen",
     "closeMenu": "Menü schließen"
@@ -103,6 +104,17 @@
     "apply": "Übernehmen",
     "hint": "Wähle die Mahlzeiten aus und lass dir einen Wochenvorschlag erstellen.",
     "noDishes": "Es sind noch keine Gerichte vorhanden - leg zuerst welche an oder importiere Rezepte."
+  },
+  "tags": {
+    "title": "Tags verwalten",
+    "subtitle": "Alle Tags - umbenennen oder löschen, ohne das Gericht zu löschen.",
+    "name": "Tag",
+    "dishCount": "Gerichte",
+    "rename": "Umbenennen",
+    "delete": "Löschen",
+    "confirmDelete": "Tag \"{{name}}\" wirklich löschen? Es wird von allen Gerichten entfernt.",
+    "renameError": "Umbenennen fehlgeschlagen - Tag-Name existiert vielleicht schon.",
+    "empty": "Noch keine Tags vorhanden."
   },
   "settings": {
     "title": "Einstellungen",

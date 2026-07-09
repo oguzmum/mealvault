@@ -2,6 +2,7 @@ export interface Tag {
   id: number;
   name: string;
   slug: string;
+  dish_count: number;
 }
 
 export type DishSource = "user" | "imported";

@@ -11,6 +11,10 @@ class TagOut(BaseModel):
     id: int
     name: str
     slug: str
+    dish_count: int = 0
+
+class TagRenameIn(BaseModel):
+    name: str = Field(min_length=1, max_length=100)
 
 
 class DishIngredientIn(BaseModel):

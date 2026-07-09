@@ -27,13 +27,34 @@ export function useDish(id: number | undefined) {
   });
 }
 
-export function useTags() {
+export function useTags({ includeEmpty = false }: { includeEmpty?: boolean } = {}) {
   return useQuery({
-    queryKey: ["tags"],
+    queryKey: ["tags", { includeEmpty }],
     queryFn: async () => {
-      const { data } = await api.get<Tag[]>("/tags");
+      const { data } = await api.get<Tag[]>("/tags", { params: { include_empty: includeEmpty } });
       return data;
     },
+  });
+}
+
+export function useRenameTag() {
+  const invalidate = useInvalidateDishes();
+  return useMutation({
+    mutationFn: async ({ id, name }: { id: number; name: string }) => {
+      const { data } = await api.patch<Tag>(`/tags/${id}`, { name });
+      return data;
+    },
+    onSuccess: invalidate,
+  });
+}
+
+export function useDeleteTag() {
+  const invalidate = useInvalidateDishes();
+  return useMutation({
+    mutationFn: async (id: number) => {
+      await api.delete(`/tags/${id}`);
+    },
+    onSuccess: invalidate,
   });
 }
 
