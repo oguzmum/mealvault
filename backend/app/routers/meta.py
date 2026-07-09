@@ -3,7 +3,7 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from app.database import get_db
-from app.models.dish import Ingredient, Tag
+from app.models.dish import Ingredient, Tag, dish_tags as DishTags
 from app.schemas.dish import TagOut
 from pydantic import BaseModel, ConfigDict
 
@@ -21,7 +21,15 @@ router = APIRouter(tags=["meta"])
 
 @router.get("/tags", response_model=list[TagOut])
 def list_tags(db: Session = Depends(get_db)):
-    return db.scalars(select(Tag).order_by(Tag.name)).all()
+    # one can manually remove tags from a dish, but that doesnt delete them from DB :D
+    used_tags = (
+        select(Tag)
+        .join(DishTags, DishTags.c.tag_id == Tag.id)
+        .distinct()
+        .order_by(Tag.name)
+    )
+
+    return db.scalars(used_tags).all()
 
 
 @router.get("/ingredients", response_model=list[IngredientOut])
