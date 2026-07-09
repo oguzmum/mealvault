@@ -82,6 +82,7 @@ export default function ShoppingPage() {
                 <path d="M9 18l6-6-6-6" />
               </svg>
             </Button>
+            <Button variant="ghost" onClick={() => setWeekOffset(0)}>{t("plan.today")}</Button>
             <Button
               onClick={() => generate.mutate({ start: startIso, end: endIso })}
               disabled={generate.isPending}

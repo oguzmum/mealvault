@@ -425,6 +425,7 @@ export default function PlanPage() {
                 <path d="M9 18l6-6-6-6" />
               </svg>
             </Button>
+			<Button variant="ghost" onClick={() => setWeekOffset(0)}>{t("plan.today")}</Button>
             <Button onClick={() => setGeneratorOpen(true)}>{t("generator.title")}</Button>
           </>
         }

@@ -78,6 +78,7 @@
   "plan": {
     "weekTotal": "Wochensumme",
     "day": "Tag",
+    "today": "Heute",
     "incomplete": "unvollständige Nährwerte",
     "palette": "Gerichte zum Einplanen",
     "paletteHint": "- ins Raster ziehen",
